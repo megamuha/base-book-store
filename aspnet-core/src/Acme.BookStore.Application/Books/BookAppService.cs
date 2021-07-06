@@ -25,6 +25,8 @@ namespace Acme.BookStore.Books
     {
         private readonly IAuthorRepository _authorRepository;
 
+        public string BuyPolicyName { get; private set; }
+
         public BookAppService(
             IRepository<Book, Guid> repository,
             IAuthorRepository authorRepository)
@@ -36,6 +38,8 @@ namespace Acme.BookStore.Books
             CreatePolicyName = BookStorePermissions.Books.Create;
             UpdatePolicyName = BookStorePermissions.Books.Edit;
             DeletePolicyName = BookStorePermissions.Books.Create;
+            BuyPolicyName = BookStorePermissions.Books.Buy;
+
         }
 
         public override async Task<BookDto> GetAsync(Guid id)

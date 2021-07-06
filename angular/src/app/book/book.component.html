@@ -45,6 +45,9 @@
         <button *abpPermission="'BookStore.Books.Delete'" ngbDropdownItem (click)="delete(row.id)">
           {{ '::Delete' | abpLocalization }}
         </button>
+        <button *abpPermission="'BookStore.Books.Buy'" ngbDropdownItem (click)="delete(row.id)">
+          {{ '::Buy' | abpLocalization }}
+        </button>
       </div>
     </div>
   </ng-template>

@@ -10,6 +10,7 @@
             public const string Create = Default + ".Create";
             public const string Edit = Default + ".Edit";
             public const string Delete = Default + ".Delete";
+            public const string Buy = Default + ".Buy";
         }
 
         // *** ADDED a NEW NESTED CLASS ***
@@ -19,6 +20,7 @@
             public const string Create = Default + ".Create";
             public const string Edit = Default + ".Edit";
             public const string Delete = Default + ".Delete";
+
         }
     }
 }
