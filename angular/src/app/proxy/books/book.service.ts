@@ -24,6 +24,14 @@ export class BookService {
     },
     { apiName: this.apiName });
 
+    buy = (id: string, input: CreateUpdateBookDto) =>
+    this.restService.request<any, BookDto>({
+      method: 'POST',
+      url: `/api/app/book/${id}`,
+      body: input,
+    },
+    { apiName: this.apiName });
+
   get = (id: string) =>
     this.restService.request<any, BookDto>({
       method: 'GET',

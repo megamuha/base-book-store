@@ -57,6 +57,14 @@ export class BookComponent implements OnInit {
     });
   }
 
+  buyBook(id: string){
+    this.bookService.get(id).subscribe((book) => {
+      this.selectedBook = book;
+      this.buildForm();
+      this.isModalOpen = true;
+    });
+  }
+
   buildForm() {
     this.form = this.fb.group({
       authorId: [this.selectedBook.authorId || null, Validators.required],
