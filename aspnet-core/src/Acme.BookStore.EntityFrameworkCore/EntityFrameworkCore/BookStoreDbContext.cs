@@ -6,6 +6,7 @@ using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.Identity;
 using Volo.Abp.Users.EntityFrameworkCore;
 using Acme.BookStore.Books;
+using Acme.BookStore.OrderedBooks;
 using Acme.BookStore.Authors;
 
 namespace Acme.BookStore.EntityFrameworkCore
@@ -23,7 +24,10 @@ namespace Acme.BookStore.EntityFrameworkCore
     public class BookStoreDbContext : AbpDbContext<BookStoreDbContext>
     {
         public DbSet<AppUser> Users { get; set; }
+
         public DbSet<Book> Books { get; set; }
+
+        public DbSet<OrderedBook> OrderedBooks { get; set; }
 
         public DbSet<Author> Authors { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using Acme.BookStore.Authors;
 using Acme.BookStore.Books;
+using Acme.BookStore.OrderedBooks;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -22,6 +23,13 @@ namespace Acme.BookStore.EntityFrameworkCore
 
                 // ADD THE MAPPING FOR THE RELATION
                 b.HasOne<Author>().WithMany().HasForeignKey(x => x.AuthorId).IsRequired();
+            });
+
+            builder.Entity<OrderedBook>(b =>
+            {
+                b.ToTable(BookStoreConsts.DbTablePrefix + "OrderedBooks", BookStoreConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props
+                b.HasOne<Book>().WithMany().HasForeignKey(x => x.BookId).IsRequired();
             });
 
             builder.Entity<Author>(b =>

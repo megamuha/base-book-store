@@ -1,3 +1,4 @@
 import * as Authors from './authors';
 import * as Books from './books';
-export { Authors, Books };
+import * as OrderedBooks from './ordered-books';
+export { Authors, Books, OrderedBooks };
