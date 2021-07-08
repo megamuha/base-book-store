@@ -39,6 +39,24 @@ namespace Acme.BookStore.OrderedBooks
                 .ToListAsync();
         }
 
+        public async Task<List<OrderedBook>> GetClientListAsync(
+              int skipCount,
+             int maxResultCount,
+             string sorting,
+             string filter)
+        {
+
+            var dbSet = await GetDbSetAsync();
+            var currentId = _currentUser.Id;
+            return await dbSet
+                .Where(
+                    order => order.ClientId == currentId
+                 )
+                .Skip(skipCount)
+                .Take(maxResultCount)
+                .ToListAsync();
+        }
+
         public async Task<OrderedBook> FindOrderAsync(OrderedBook input)
         {
             var dbSet = await GetDbSetAsync();

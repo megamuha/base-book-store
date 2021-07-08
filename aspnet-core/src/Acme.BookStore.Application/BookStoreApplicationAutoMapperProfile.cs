@@ -17,6 +17,7 @@ namespace Acme.BookStore
 
             CreateMap<OrderedBook, OrderedBookDto>();
             CreateMap<CreateUpdateOrderedBookDto, OrderedBook>();
+
         }
     }
 }

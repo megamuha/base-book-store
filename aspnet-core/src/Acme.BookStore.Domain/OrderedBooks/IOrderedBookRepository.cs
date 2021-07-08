@@ -15,5 +15,12 @@ namespace Acme.BookStore.Orders
             string filter = null
         );
 
+        Task<List<OrderedBook>> GetClientListAsync(
+            int skipCount,
+            int maxResultCount,
+            string sorting,
+            string filter = null
+        );
+
     }
 }

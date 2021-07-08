@@ -96,6 +96,32 @@ namespace Acme.BookStore.OrderedBooks
 
             await _orderedBookRepository.UpdateAsync(order);
         }
+
+        public async Task<PagedResultDto<OrderedBookDto>> GetClientListAsync(GetOrderedBookListDto input)
+        {
+            var orders = await _orderedBookRepository.GetClientListAsync(
+                input.SkipCount,
+                input.MaxResultCount,
+                input.Sorting
+            );
+
+            var user = await _userRepository.GetListAsync();
+            var books = await _bookRepository.GetListAsync();
+
+            var bookOrderDto = ObjectMapper.Map<List<OrderedBook>, List<OrderedBookDto>>(orders);
+            bookOrderDto.ForEach((order) =>
+            {
+                order.ClientName = user.Find(user => user.Id == order.ClientId).UserName;
+                order.BookName = books.Find(book => book.Id == order.BookId).Name;
+            });
+
+            var totalCount = orders.Count;
+
+            return new PagedResultDto<OrderedBookDto>(
+                totalCount,
+                bookOrderDto
+            );
+        }
     }
 }
 

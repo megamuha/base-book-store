@@ -31,6 +31,14 @@ export class OrderedBookService {
     },
     { apiName: this.apiName });
 
+  getClientList = (input: GetOrderedBookListDto) =>
+    this.restService.request<any, PagedResultDto<OrderedBookDto>>({
+      method: 'GET',
+      url: '/api/app/ordered-book/client-list',
+      params: { filter: input.filter, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
   getList = (input: GetOrderedBookListDto) =>
     this.restService.request<any, PagedResultDto<OrderedBookDto>>({
       method: 'GET',
