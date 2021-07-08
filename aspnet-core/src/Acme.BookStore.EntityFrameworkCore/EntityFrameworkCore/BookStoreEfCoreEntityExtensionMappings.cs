@@ -14,8 +14,8 @@ namespace Acme.BookStore.EntityFrameworkCore
             BookStoreGlobalFeatureConfigurator.Configure();
             BookStoreModuleExtensionConfigurator.Configure();
 
-            OneTimeRunner.Run(() =>
-            {
+           
+
                 /* You can configure extra properties for the
                  * entities defined in the modules used by your application.
                  *
@@ -39,7 +39,7 @@ namespace Acme.BookStore.EntityFrameworkCore
                  * See the documentation for more:
                  * https://docs.abp.io/en/abp/latest/Customizing-Application-Modules-Extending-Entities
                  */
-            });
+            
         }
     }
 }

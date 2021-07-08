@@ -45,7 +45,7 @@
         <button *abpPermission="'BookStore.Books.Delete'" ngbDropdownItem (click)="delete(row.id)">
           {{ '::Delete' | abpLocalization }}
         </button>
-        <button *abpPermission="'BookStore.Books.Buy'" ngbDropdownItem (click)="buyBook(row.id)">
+        <button *abpPermission="'BookStore.Books.Buy'" ngbDropdownItem (click)="makeOrder(row.id)">
           {{ '::Make order' | abpLocalization }}
         </button>
       </div>

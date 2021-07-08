@@ -13,7 +13,7 @@ namespace Acme.BookStore.Authors
 
         private Author()
         {
-            /* This constructor is for deserialization / ORM purpose */
+            /* This constructor is for serialization / ORM purpose */
         }
 
         internal Author(

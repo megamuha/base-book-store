@@ -1,4 +1,5 @@
 import { ListService, PagedResultDto } from '@abp/ng.core';
+import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { OrderedBookService, OrderedBookDto } from '@proxy/ordered-books';
 
@@ -13,7 +14,7 @@ export class OrderedBooksComponent implements OnInit {
 
   book = { items: [], totalCount: 0 } as PagedResultDto<OrderedBookDto>;
 
-  constructor(public readonly list: ListService, private orderedBookService: OrderedBookService) {}
+  constructor(public readonly list: ListService, private orderedBookService: OrderedBookService, private confirmation: ConfirmationService,) {}
 
   ngOnInit() {
     const bookStreamCreator = (query) => this.orderedBookService.getList(query);
@@ -22,4 +23,14 @@ export class OrderedBooksComponent implements OnInit {
       this.book = response;
     });
   }
+
+  delete(id: string) {
+    this.confirmation.info('', '::Delete this book?').subscribe((status) => {
+      if (status === Confirmation.Status.confirm) {
+        console.log(true)
+        this.orderedBookService.delete(id).subscribe(() => this.list.get());
+      }
+    });
+  }
+
 }

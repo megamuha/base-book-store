@@ -6,6 +6,7 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OrderedBookService } from '@proxy/ordered-books';
 
 @Component({
   selector: 'app-book',
@@ -30,7 +31,8 @@ export class BookComponent implements OnInit {
     public readonly list: ListService,
     private bookService: BookService,
     private fb: FormBuilder,
-    private confirmation: ConfirmationService
+    private confirmation: ConfirmationService,
+    private orderedBooks: OrderedBookService
   ) {
     this.authors$ = bookService.getAuthorLookup().pipe(map((r) => r.items));
   }
@@ -50,14 +52,6 @@ export class BookComponent implements OnInit {
   }
 
   editBook(id: string) {
-    this.bookService.get(id).subscribe((book) => {
-      this.selectedBook = book;
-      this.buildForm();
-      this.isModalOpen = true;
-    });
-  }
-
-  buyBook(id: string){
     this.bookService.get(id).subscribe((book) => {
       this.selectedBook = book;
       this.buildForm();
@@ -98,6 +92,16 @@ export class BookComponent implements OnInit {
     this.confirmation.warn('::AreYouSureToDelete', 'AbpAccount::AreYouSure').subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.bookService.delete(id).subscribe(() => this.list.get());
+      }
+    });
+  }
+
+  makeOrder(id: string) {
+    this.confirmation.info('', '::MakeAnOrder').subscribe((status) => {
+      if (status === Confirmation.Status.confirm) {
+
+    const order = {bookId: id};
+    this.orderedBooks.create(order).subscribe();
       }
     });
   }

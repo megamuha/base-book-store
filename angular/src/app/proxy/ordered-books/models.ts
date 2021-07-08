@@ -1,7 +1,12 @@
-import type { AuditedEntityDto } from '@abp/ng.core';
+import type { AuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreateUpdateOrderedBookDto {
   bookId?: string;
+  clientId?: string;
+}
+
+export interface GetOrderedBookListDto extends PagedAndSortedResultRequestDto {
+  filter?: string;
 }
 
 export interface OrderedBookDto extends AuditedEntityDto<string> {
@@ -9,6 +14,4 @@ export interface OrderedBookDto extends AuditedEntityDto<string> {
   bookId?: string;
   bookName?: string;
   clientName?: string;
-  status?: string;
-  details?: string;
 }

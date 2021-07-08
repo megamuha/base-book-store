@@ -27,7 +27,7 @@ namespace Acme.BookStore.EntityFrameworkCore
 
         public DbSet<Book> Books { get; set; }
 
-        public DbSet<OrderedBook> OrderedBooks { get; set; }
+        public DbSet<OrderedBook> OrderedBook { get; set; }
 
         public DbSet<Author> Authors { get; set; }
 

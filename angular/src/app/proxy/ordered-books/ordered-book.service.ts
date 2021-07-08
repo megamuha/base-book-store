@@ -1,6 +1,6 @@
-import type { CreateUpdateOrderedBookDto, OrderedBookDto } from './models';
+import type { CreateUpdateOrderedBookDto, GetOrderedBookListDto, OrderedBookDto } from './models';
 import { RestService } from '@abp/ng.core';
-import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -31,16 +31,16 @@ export class OrderedBookService {
     },
     { apiName: this.apiName });
 
-  getList = (input: PagedAndSortedResultRequestDto) =>
+  getList = (input: GetOrderedBookListDto) =>
     this.restService.request<any, PagedResultDto<OrderedBookDto>>({
       method: 'GET',
       url: '/api/app/ordered-book',
-      params: { skipCount: input.skipCount, maxResultCount: input.maxResultCount, sorting: input.sorting },
+      params: { filter: input.filter, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
   update = (id: string, input: CreateUpdateOrderedBookDto) =>
-    this.restService.request<any, OrderedBookDto>({
+    this.restService.request<any, void>({
       method: 'PUT',
       url: `/api/app/ordered-book/${id}`,
       body: input,

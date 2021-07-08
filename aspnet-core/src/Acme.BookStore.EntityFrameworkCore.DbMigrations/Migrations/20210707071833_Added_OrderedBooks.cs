@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Acme.BookStore.Migrations
 {
-    public partial class Created_OrderedBook_Entity : Migration
+    public partial class Added_OrderedBooks : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

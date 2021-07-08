@@ -1,23 +1,102 @@
-﻿using System;
+﻿using Acme.BookStore.Books;
+using Acme.BookStore.Orders;
+using Acme.BookStore.Users;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Users;
 
 namespace Acme.BookStore.OrderedBooks
 {
-    public class OrderedBookAppService :
-        CrudAppService<
-            OrderedBook, //The Book entity
-            OrderedBookDto, //Used to show books
-            Guid, //Primary key of the book entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateUpdateOrderedBookDto>, //Used to create/update a book
-        IOrderedBookAppService //implement the IBookAppService
-    {
-        public OrderedBookAppService(IRepository<OrderedBook, Guid> repository)
-            : base(repository)
-        {
+    public class OrderedBookAppService : BookStoreAppService, IOrderedBookAppService, ITransientDependency
 
+    {
+        private readonly ICurrentUser _currentUser;
+        private readonly IOrderedBookRepository _orderedBookRepository;
+        private readonly IRepository<Book, Guid> _bookRepository;
+        private readonly IRepository<AppUser, Guid> _userRepository;
+
+
+        public OrderedBookAppService(ICurrentUser currentUser, IOrderedBookRepository orderedBooksRepository,
+             IRepository<Book, Guid> bookRepository, IRepository<AppUser, Guid> userRepository)
+        {
+            _currentUser = currentUser;
+            _orderedBookRepository = orderedBooksRepository;
+            _bookRepository = bookRepository;
+            _userRepository = userRepository;
+
+        }
+
+
+
+        public async Task<OrderedBookDto> CreateAsync(CreateUpdateOrderedBookDto input)
+        {
+            var order = new OrderedBook
+            {
+                ClientId = (Guid)_currentUser.Id,
+                BookId = input.BookId
+            };
+
+            await _orderedBookRepository.InsertAsync(order);
+
+            return ObjectMapper.Map<OrderedBook, OrderedBookDto>(order);
+        }
+
+        public async Task<PagedResultDto<OrderedBookDto>> GetListAsync(GetOrderedBookListDto input)
+        {
+            var orders = await _orderedBookRepository.GetListAsync(
+               input.SkipCount,
+               input.MaxResultCount,
+               input.Sorting
+           );
+            var users = await _userRepository.GetListAsync();
+            var books = await _bookRepository.GetListAsync();
+
+            var bookOrderDto = ObjectMapper.Map<List<OrderedBook>, List<OrderedBookDto>>(orders);
+            bookOrderDto.ForEach((order) =>
+            {
+                order.ClientName = users.Find(user => user.Id == order.ClientId).UserName;
+                order.BookName = books.Find(book => book.Id == order.BookId).Name;
+            });
+
+            var totalCount = await _orderedBookRepository.CountAsync();
+
+            return new PagedResultDto<OrderedBookDto>(
+                totalCount,
+                bookOrderDto
+            );
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            await _orderedBookRepository.DeleteAsync(id);
+        }
+
+        public async Task<OrderedBookDto> GetAsync(Guid id)
+        {
+            var order = await _orderedBookRepository.GetAsync(id);
+
+            var user = await _userRepository.GetAsync(order.ClientId);
+            var book = await _bookRepository.GetAsync(order.BookId);
+
+            var bookOrderDto = ObjectMapper.Map<OrderedBook, OrderedBookDto>(order);
+            bookOrderDto.ClientName = user.UserName;
+            bookOrderDto.BookName = book.Name;
+
+            return ObjectMapper.Map<OrderedBook, OrderedBookDto>(order, bookOrderDto);
+        }
+
+        public async Task UpdateAsync(Guid id, CreateUpdateOrderedBookDto input)
+        {
+            var order = await _orderedBookRepository.GetAsync(id);
+
+            await _orderedBookRepository.UpdateAsync(order);
         }
     }
 }
+
+
