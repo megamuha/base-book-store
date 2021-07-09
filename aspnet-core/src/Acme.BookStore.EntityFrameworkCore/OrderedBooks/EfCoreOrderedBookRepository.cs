@@ -47,8 +47,8 @@ namespace Acme.BookStore.OrderedBooks
         {
 
             var dbSet = await GetDbSetAsync();
-            var currentId = _currentUser.Id;
-            return await dbSet
+            var currentId = _currentUser.Id;            
+                return await dbSet
                 .Where(
                     order => order.ClientId == currentId
                  )

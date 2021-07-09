@@ -46,30 +46,7 @@ namespace Acme.BookStore.OrderedBooks
             return ObjectMapper.Map<OrderedBook, OrderedBookDto>(order);
         }
 
-        public async Task<PagedResultDto<OrderedBookDto>> GetListAsync(GetOrderedBookListDto input)
-        {
-            var orders = await _orderedBookRepository.GetListAsync(
-               input.SkipCount,
-               input.MaxResultCount,
-               input.Sorting
-           );
-            var users = await _userRepository.GetListAsync();
-            var books = await _bookRepository.GetListAsync();
-
-            var bookOrderDto = ObjectMapper.Map<List<OrderedBook>, List<OrderedBookDto>>(orders);
-            bookOrderDto.ForEach((order) =>
-            {
-                order.ClientName = users.Find(user => user.Id == order.ClientId).UserName;
-                order.BookName = books.Find(book => book.Id == order.BookId).Name;
-            });
-
-            var totalCount = await _orderedBookRepository.CountAsync();
-
-            return new PagedResultDto<OrderedBookDto>(
-                totalCount,
-                bookOrderDto
-            );
-        }
+      
 
         public async Task DeleteAsync(Guid id)
         {
@@ -97,6 +74,28 @@ namespace Acme.BookStore.OrderedBooks
             await _orderedBookRepository.UpdateAsync(order);
         }
 
+        public async Task<PagedResultDto<OrderedBookDto>> GetListAsync(GetOrderedBookListDto input)
+        {
+            var orders = await _orderedBookRepository.GetListAsync(
+               input.SkipCount,
+               input.MaxResultCount,
+               input.Sorting
+           );
+            var users = await _userRepository.GetListAsync();
+            var books = await _bookRepository.GetListAsync();
+
+            var bookOrderDto = ObjectMapper.Map<List<OrderedBook>, List<OrderedBookDto>>(orders);
+            bookOrderDto.ForEach((order) =>
+            {
+                order.ClientName = users.Find(user => user.Id == order.ClientId).UserName;
+                order.BookName = books.Find(book => book.Id == order.BookId).Name;
+            });
+
+            var totalCount = await _orderedBookRepository.CountAsync();
+            var admin = "admin";
+            return _currentUser.Roles[0] == admin ? new PagedResultDto<OrderedBookDto>(totalCount, bookOrderDto) : null;
+        }
+
         public async Task<PagedResultDto<OrderedBookDto>> GetClientListAsync(GetOrderedBookListDto input)
         {
             var orders = await _orderedBookRepository.GetClientListAsync(
@@ -109,18 +108,17 @@ namespace Acme.BookStore.OrderedBooks
             var books = await _bookRepository.GetListAsync();
 
             var bookOrderDto = ObjectMapper.Map<List<OrderedBook>, List<OrderedBookDto>>(orders);
-            bookOrderDto.ForEach((order) =>
-            {
-                order.ClientName = user.Find(user => user.Id == order.ClientId).UserName;
-                order.BookName = books.Find(book => book.Id == order.BookId).Name;
-            });
+          
+                bookOrderDto.ForEach((order) =>
+                {
+                    order.ClientName = user.Find(user => user.Id == order.ClientId).UserName;
+                    order.BookName = books.Find(book => book.Id == order.BookId).Name;
+                });       
+            
 
             var totalCount = orders.Count;
 
-            return new PagedResultDto<OrderedBookDto>(
-                totalCount,
-                bookOrderDto
-            );
+            return _currentUser.Roles[0] == "client" ? new PagedResultDto<OrderedBookDto>(totalCount, bookOrderDto) : null;
         }
     }
 }

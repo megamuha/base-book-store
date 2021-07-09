@@ -12,7 +12,6 @@ namespace Acme.BookStore.OrderedBooks
         public string BookName { get; set; }
 
         public string ClientName { get; set; }
-
-
+     
     }
 }

@@ -17,8 +17,19 @@ export class OrderedBooksComponent implements OnInit {
   constructor(public readonly list: ListService, private orderedBookService: OrderedBookService, private confirmation: ConfirmationService,) {}
 
   ngOnInit() {
-    const bookStreamCreator = (query) => this.orderedBookService.getList(query);
+   this.allBooksList();
+   this.usersBookList();
+  }
 
+  allBooksList(){
+    const bookStreamCreator = (query) => this.orderedBookService.getList(query);
+    this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
+      this.book = response;
+    });
+  }
+
+  usersBookList(){
+    const bookStreamCreator = (query) => this.orderedBookService.getClientList(query);
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.book = response;
     });
