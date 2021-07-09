@@ -42,6 +42,7 @@ namespace Acme.BookStore.Books
 
         }
 
+
         public override async Task<BookDto> GetAsync(Guid id)
         {
             //Get the IQueryable<Book> from the repository

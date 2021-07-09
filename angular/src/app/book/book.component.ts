@@ -7,6 +7,7 @@ import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderedBookService } from '@proxy/ordered-books';
+import { HttpClient, HttpHeaders, HttpParams, } from '@angular/common/http';
 
 @Component({
   selector: 'app-book',
@@ -97,11 +98,18 @@ export class BookComponent implements OnInit {
   }
 
   makeOrder(id: string) {
+    const order = {bookId: id};
     this.confirmation.info('', '::MakeAnOrder').subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-
-    const order = {bookId: id};
-    this.orderedBooks.create(order).subscribe();
+    this.orderedBooks.create(order).subscribe(res => {
+      let a = res;
+    },
+    err => {
+      err.error.error.message = "You already had this book!";
+      let a = err.error.error.message;
+      console.log(a);
+    }
+    );
       }
     });
   }

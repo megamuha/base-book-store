@@ -22,5 +22,9 @@ namespace Acme.BookStore.Orders
             string filter = null
         );
 
+        Task<List<OrderedBook>> CreateUsedbookAsync(
+          
+           string filter = null
+       );
     }
 }

@@ -45,6 +45,7 @@
     "AuthorDeletionConfirmationMessage": "Are you sure to delete the author '{0}'?",
     "BirthDate": "Birth date",
     "NewAuthor": "New author",
-    "MakeAnOrder": "Do you really want to make an order?"
+    "MakeAnOrder": "Do you really want to make an order?",
+    "YouHaveThisBook": "Ooops, you had already order this book &#128577"
   }
 }

@@ -4,6 +4,7 @@ using Acme.BookStore.Users;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.DependencyInjection;
@@ -35,18 +36,36 @@ namespace Acme.BookStore.OrderedBooks
 
         public async Task<OrderedBookDto> CreateAsync(CreateUpdateOrderedBookDto input)
         {
-            var order = new OrderedBook
+            var orders = await _orderedBookRepository.CreateUsedbookAsync();       
+
+            var currentBook = input.BookId;
+            bool isBook = false;
+            for (int i = 0; i < orders.Count; i++)
             {
-                ClientId = (Guid)_currentUser.Id,
-                BookId = input.BookId
-            };
+                if (orders[i].BookId == currentBook)
+                {
+                    isBook = true;
+                    break;
+                }
+            }
 
-            await _orderedBookRepository.InsertAsync(order);
+            if (isBook == false)
+            {
+                var order = new OrderedBook
+                {
+                    ClientId = (Guid)_currentUser.Id,
+                    BookId = input.BookId
+                };
 
-            return ObjectMapper.Map<OrderedBook, OrderedBookDto>(order);
+                await _orderedBookRepository.InsertAsync(order);
+
+                return ObjectMapper.Map<OrderedBook, OrderedBookDto>(order);
+            }
+            else
+                throw new UserFriendlyException(L["YouHaveThisBook"]);
         }
 
-      
+
 
         public async Task DeleteAsync(Guid id)
         {
@@ -108,18 +127,19 @@ namespace Acme.BookStore.OrderedBooks
             var books = await _bookRepository.GetListAsync();
 
             var bookOrderDto = ObjectMapper.Map<List<OrderedBook>, List<OrderedBookDto>>(orders);
-          
-                bookOrderDto.ForEach((order) =>
-                {
-                    order.ClientName = user.Find(user => user.Id == order.ClientId).UserName;
-                    order.BookName = books.Find(book => book.Id == order.BookId).Name;
-                });       
-            
+
+            bookOrderDto.ForEach((order) =>
+            {
+                order.ClientName = user.Find(user => user.Id == order.ClientId).UserName;
+                order.BookName = books.Find(book => book.Id == order.BookId).Name;
+            });
+
 
             var totalCount = orders.Count;
 
             return _currentUser.Roles[0] == "client" ? new PagedResultDto<OrderedBookDto>(totalCount, bookOrderDto) : null;
         }
+
     }
 }
 

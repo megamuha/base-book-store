@@ -14,8 +14,8 @@ using Volo.Abp.Users;
 
 namespace Acme.BookStore.OrderedBooks
 {
-   public class EfCoreOrderedBookRepository : EfCoreRepository<BookStoreDbContext, OrderedBook, Guid>,
-            IOrderedBookRepository, ITransientDependency
+    public class EfCoreOrderedBookRepository : EfCoreRepository<BookStoreDbContext, OrderedBook, Guid>,
+             IOrderedBookRepository, ITransientDependency
     {
         private readonly ICurrentUser _currentUser;
 
@@ -47,15 +47,16 @@ namespace Acme.BookStore.OrderedBooks
         {
 
             var dbSet = await GetDbSetAsync();
-            var currentId = _currentUser.Id;            
-                return await dbSet
-                .Where(
-                    order => order.ClientId == currentId
-                 )
-                .Skip(skipCount)
-                .Take(maxResultCount)
-                .ToListAsync();
+            var currentId = _currentUser.Id;
+            return await dbSet
+            .Where(
+                order => order.ClientId == currentId
+             )
+            .Skip(skipCount)
+            .Take(maxResultCount)
+            .ToListAsync();
         }
+
 
         public async Task<OrderedBook> FindOrderAsync(OrderedBook input)
         {
@@ -83,5 +84,17 @@ namespace Acme.BookStore.OrderedBooks
                     order => order.BookId == id
                  ).Select(order => order.Id).ToListAsync();
         }
+
+        public async Task<List<OrderedBook>> CreateUsedbookAsync(string filter = null)
+        {
+            var dbSet = await GetDbSetAsync();
+            var currentId = _currentUser.Id;
+            return await dbSet
+            .Where(
+                order => order.ClientId == currentId
+             )
+            .ToListAsync();
+        }
+
     }
 }
