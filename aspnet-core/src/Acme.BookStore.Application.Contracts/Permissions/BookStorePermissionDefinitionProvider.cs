@@ -28,10 +28,17 @@ namespace Acme.BookStore.Permissions
             authorsPermission.AddChild(
                 BookStorePermissions.Authors.Delete, L("Permission:Authors.Delete"));
 
-            var ordersPermission = bookStoreGroup.AddPermission(BookStorePermissions.OrderedBooks.Default, L("Permission:Orders"));
-            ordersPermission.AddChild(BookStorePermissions.OrderedBooks.Delete, L("Permission:OrderedBooks.Delete"));
-            ordersPermission.AddChild(BookStorePermissions.OrderedBooks.ChangeStatus, L("Permission:OrderedBooks.ChangeStatus"));
+            var ordersPermission = bookStoreGroup.AddPermission(
+     BookStorePermissions.OrderedBooks.Default, L("Permission:Orders"));
 
+            ordersPermission.AddChild(
+                BookStorePermissions.OrderedBooks.Delete, L("Permission:Orders.Delete"));
+
+//             ordersPermission.AddChild(
+//                 BookStorePermissions.OrderedBooks.ShowOrders, L("Permission:Orders.ShowOrders"));
+
+            ordersPermission.AddChild(
+                BookStorePermissions.OrderedBooks.ChangeStatus, L("Permission:Orders.ChangeStatus"));
         }
 
         

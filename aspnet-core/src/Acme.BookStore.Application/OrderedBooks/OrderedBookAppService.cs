@@ -67,7 +67,7 @@ namespace Acme.BookStore.OrderedBooks
                 throw new UserFriendlyException(L["YouHaveThisBook"]);
         }
 
-       // [Authorize(BookStorePermissions.OrderedBooks.Delete)]
+        [Authorize(BookStorePermissions.OrderedBooks.Delete)]
         public async Task DeleteAsync(Guid id)
         {
             await _orderedBookRepository.DeleteAsync(id);
@@ -87,7 +87,7 @@ namespace Acme.BookStore.OrderedBooks
             return ObjectMapper.Map<OrderedBook, OrderedBookDto>(order, bookOrderDto);
         }
 
-       // [Authorize(BookStorePermissions.OrderedBooks.ChangeStatus)]
+       [Authorize(BookStorePermissions.OrderedBooks.ChangeStatus)]
         public async Task UpdateStatusAsync(Guid id)
         {
             var order = await _orderedBookRepository.GetAsync(id);
