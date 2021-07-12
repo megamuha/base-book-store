@@ -104,6 +104,7 @@ namespace Acme.BookStore.OrderedBooks
             await _orderedBookRepository.UpdateAsync(order);
         }
 
+        [Authorize(BookStorePermissions.OrderedBooks.ShowOrders)]
         public async Task<PagedResultDto<OrderedBookDto>> GetListAsync(GetOrderedBookListDto input)
         {
             var orders = await _orderedBookRepository.GetListAsync(
@@ -126,6 +127,7 @@ namespace Acme.BookStore.OrderedBooks
             return _currentUser.Roles[0] == admin ? new PagedResultDto<OrderedBookDto>(totalCount, bookOrderDto) : null;
         }
 
+        [Authorize(BookStorePermissions.OrderedBooks.ShowOrders)]
         public async Task<PagedResultDto<OrderedBookDto>> GetClientListAsync(GetOrderedBookListDto input)
         {
             var orders = await _orderedBookRepository.GetClientListAsync(

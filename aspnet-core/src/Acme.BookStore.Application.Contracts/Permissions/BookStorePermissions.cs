@@ -26,7 +26,7 @@
         {
             public const string Default = GroupName + ".Orders";
             public const string Delete = Default + ".Delete";
-           // public const string ShowOrders = Default + ".ShowOrders";
+            public const string ShowOrders = Default + ".ShowOrders";
             public const string ChangeStatus = Default + ".ChangeStatus";
 
         }
