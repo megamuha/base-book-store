@@ -13,13 +13,20 @@
             public const string Buy = Default + ".Buy";
         }
 
-        // *** ADDED a NEW NESTED CLASS ***
         public static class Authors
         {
             public const string Default = GroupName + ".Authors";
             public const string Create = Default + ".Create";
             public const string Edit = Default + ".Edit";
             public const string Delete = Default + ".Delete";
+
+        }
+
+        public static class OrderedBooks
+        {
+            public const string Default = GroupName + ".Orders";
+            public const string Delete = Default + ".Delete";
+            public const string ChangeStatus = Default + ".ChangeStatus";
 
         }
     }

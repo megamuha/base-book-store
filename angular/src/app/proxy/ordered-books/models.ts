@@ -14,4 +14,5 @@ export interface OrderedBookDto extends AuditedEntityDto<string> {
   bookId?: string;
   bookName?: string;
   clientName?: string;
+  status: boolean;
 }

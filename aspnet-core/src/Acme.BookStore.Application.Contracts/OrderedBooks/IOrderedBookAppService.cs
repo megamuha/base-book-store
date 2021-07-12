@@ -19,5 +19,7 @@ namespace Acme.BookStore.OrderedBooks
         Task UpdateAsync(Guid id, CreateUpdateOrderedBookDto input);
 
         Task DeleteAsync(Guid id);
+
+        Task UpdateStatusAsync(Guid id);
     }
 }

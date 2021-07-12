@@ -1,6 +1,8 @@
 ﻿using Acme.BookStore.Books;
 using Acme.BookStore.Orders;
+using Acme.BookStore.Permissions;
 using Acme.BookStore.Users;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -33,7 +35,7 @@ namespace Acme.BookStore.OrderedBooks
         }
 
 
-
+        
         public async Task<OrderedBookDto> CreateAsync(CreateUpdateOrderedBookDto input)
         {
             var orders = await _orderedBookRepository.CreateUsedbookAsync();       
@@ -65,8 +67,7 @@ namespace Acme.BookStore.OrderedBooks
                 throw new UserFriendlyException(L["YouHaveThisBook"]);
         }
 
-
-
+       // [Authorize(BookStorePermissions.OrderedBooks.Delete)]
         public async Task DeleteAsync(Guid id)
         {
             await _orderedBookRepository.DeleteAsync(id);
@@ -84,6 +85,16 @@ namespace Acme.BookStore.OrderedBooks
             bookOrderDto.BookName = book.Name;
 
             return ObjectMapper.Map<OrderedBook, OrderedBookDto>(order, bookOrderDto);
+        }
+
+       // [Authorize(BookStorePermissions.OrderedBooks.ChangeStatus)]
+        public async Task UpdateStatusAsync(Guid id)
+        {
+            var order = await _orderedBookRepository.GetAsync(id);
+
+            order.Status = order.Status == false ? true : false;
+
+            await _orderedBookRepository.UpdateAsync(order);
         }
 
         public async Task UpdateAsync(Guid id, CreateUpdateOrderedBookDto input)
@@ -139,7 +150,6 @@ namespace Acme.BookStore.OrderedBooks
 
             return _currentUser.Roles[0] == "client" ? new PagedResultDto<OrderedBookDto>(totalCount, bookOrderDto) : null;
         }
-
     }
 }
 

@@ -30,6 +30,12 @@
                 {{ 'AbpAccount::Delete' | abpLocalization }}
               </button>
 
+                <button 
+                      ngbDropdownItem
+                      (click)="updateStatus(row.id)">
+                {{ 'AbpAccount::Change status' | abpLocalization }}
+              </button>
+
             </div>
 
           </div>
@@ -44,6 +50,18 @@
         <ngx-datatable-column [name]="'::Book Name' | abpLocalization" prop="book">
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.bookName}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Confirm' | abpLocalization" prop="confirm">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p *ngIf="row.status">
+              Order confirmed
+            </p>
+            <p *ngIf="!row.status">
+              Waiting confirm
+            </p>
+
+            
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>

@@ -44,4 +44,14 @@ export class OrderedBooksComponent implements OnInit {
     });
   }
 
+  updateStatus(id: string) {
+    this.confirmation.info('', 'Change status?').subscribe((status) => {
+      if (status === Confirmation.Status.confirm) {
+        console.log(true)
+        this.orderedBookService.updateStatus(id).subscribe(() => this.list.get());
+      }
+    });
+  }
+
+
 }

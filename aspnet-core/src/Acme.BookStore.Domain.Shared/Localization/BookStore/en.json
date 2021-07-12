@@ -35,6 +35,8 @@
     "Permission:Books.Edit": "Editing the books",
     "Permission:Books.Delete": "Deleting the books",
     "Permission:Books.Buy": "Buying the books",
+    "Permission:OrderedBooks.Delete": "Delete order",
+    "Permission:OrderedBooks.ChangeStatus": "Change status",
     "BookStore:00001": "There is already an author with the same name: {name}",
     "Permission:Authors": "Author Management",
     "Permission:Authors.Create": "Creating new authors",

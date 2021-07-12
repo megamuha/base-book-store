@@ -16,5 +16,7 @@ namespace Acme.BookStore.OrderedBooks
 
         public Guid BookId { get; set; }
 
+        public bool Status { get; set; }
+
     }
 }
