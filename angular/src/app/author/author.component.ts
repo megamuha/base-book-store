@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TestabilityRegistry } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { AuthorService, AuthorDto } from '@proxy/authors';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -20,6 +20,12 @@ export class AuthorComponent implements OnInit {
 
   selectedAuthor = {} as AuthorDto;
 
+  currentDate;
+
+  biographyFlag = false;
+
+  stringId :string;
+
   constructor(
     public readonly list: ListService,
     private authorService: AuthorService,
@@ -33,6 +39,15 @@ export class AuthorComponent implements OnInit {
     this.list.hookToQuery(authorStreamCreator).subscribe((response) => {
       this.author = response;
     });
+
+    this.currentDate = {day: new Date().getDate(), 
+      month: new Date().getMonth() + 1, 
+      year : new Date().getFullYear()}
+  }
+
+  showBio(id: string){
+   this.stringId = id;
+   this.biographyFlag = !this.biographyFlag;
   }
 
   createAuthor() {
@@ -56,6 +71,7 @@ export class AuthorComponent implements OnInit {
         this.selectedAuthor.birthDate ? new Date(this.selectedAuthor.birthDate) : null,
         Validators.required,
       ],
+      shortBio: [this.selectedAuthor.shortBio || '']
     });
   }
 

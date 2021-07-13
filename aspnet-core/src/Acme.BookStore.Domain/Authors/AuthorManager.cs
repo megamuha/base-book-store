@@ -18,7 +18,7 @@ namespace Acme.BookStore.Authors
         public async Task<Author> CreateAsync(
             [NotNull] string name,
             DateTime birthDate,
-            [CanBeNull] string shortBio = null)
+            [CanBeNull] string shortBio)
         {
             Check.NotNullOrWhiteSpace(name, nameof(name));
 
