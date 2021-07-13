@@ -26,6 +26,8 @@ export class AuthorComponent implements OnInit {
 
   stringId :string;
 
+  
+
   constructor(
     public readonly list: ListService,
     private authorService: AuthorService,
@@ -43,11 +45,18 @@ export class AuthorComponent implements OnInit {
     this.currentDate = {day: new Date().getDate(), 
       month: new Date().getMonth() + 1, 
       year : new Date().getFullYear()}
+
+      
+      
   }
 
   showBio(id: string){
    this.stringId = id;
    this.biographyFlag = !this.biographyFlag;
+   this.author.items[1].flagBio = !this.author.items[1].flagBio
+   for(let i = 0; i < this.author.items.length; i++){
+    console.log(this.author.items[i].flagBio)
+   }
   }
 
   createAuthor() {

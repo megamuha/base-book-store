@@ -33,6 +33,8 @@ export class BookComponent implements OnInit {
 
   bookDate = [];
 
+  imageSource: string;
+
   constructor(
     public readonly list: ListService,
     private bookService: BookService,
@@ -70,6 +72,10 @@ export class BookComponent implements OnInit {
       }
     });
   }
+
+  text = '';
+openPrediction() {
+this.text = '...' }
 
   createBook() {
     this.selectedBook = {} as BookDto;

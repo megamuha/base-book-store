@@ -10,5 +10,7 @@ namespace Acme.BookStore.Authors
         public DateTime BirthDate { get; set; }
 
         public string ShortBio { get; set; }
+
+        public bool FlagBio { get; set; }
     }
 }

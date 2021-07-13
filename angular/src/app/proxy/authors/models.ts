@@ -4,6 +4,7 @@ export interface AuthorDto extends EntityDto<string> {
   name?: string;
   birthDate?: string;
   shortBio?: string;
+  flagBio?: boolean;
 }
 
 export interface CreateAuthorDto {
