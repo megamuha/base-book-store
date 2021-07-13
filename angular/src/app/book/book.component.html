@@ -36,7 +36,7 @@
         aria-haspopup="true"
         ngbDropdownToggle
       >
-        <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
+        <i class="fa fa-cog mr-1"></i>{{ '::ActionsSelect' | abpLocalization }}
       </button>
       <div ngbDropdownMenu>
         <button *abpPermission="'BookStore.Books.Edit'" ngbDropdownItem (click)="editBook(row.id)">
@@ -62,7 +62,7 @@
         </ngx-datatable-column>
         <ngx-datatable-column [name]="'::PublishDate' | abpLocalization" prop="publishDate">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.publishDate | date }}
+            {{ row.publishDate | date}}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column [name]="'::Price' | abpLocalization" prop="price">
@@ -70,12 +70,21 @@
             {{ row.price | currency }}
           </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Release' | abpLocalization">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p *ngIf="row.publishDate > currentDate " >
+              book for pre-order
+            </p>
+            <p *ngIf="row.publishDate <= currentDate" style="color:#6ec716">
+              Book published
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
       </ngx-datatable>
       <abp-modal [(visible)]="isModalOpen">
         <ng-template #abpHeader>
           <h3>{{ (selectedBook.id ? '::Edit' : '::NewBook' ) | abpLocalization }}</h3>
       </ng-template>
-      
         <ng-template #abpBody>
           <form [formGroup]="form" (ngSubmit)="save()">
 

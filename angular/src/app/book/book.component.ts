@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderedBookService } from '@proxy/ordered-books';
 import { HttpClient, HttpHeaders, HttpParams, } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-book',
@@ -28,14 +29,20 @@ export class BookComponent implements OnInit {
 
   isModalOpen = false;
 
+  currentDate = Date();
+
+  bookDate = [];
+
   constructor(
     public readonly list: ListService,
     private bookService: BookService,
     private fb: FormBuilder,
     private confirmation: ConfirmationService,
-    private orderedBooks: OrderedBookService
+    private orderedBooks: OrderedBookService,
+    public datepipe: DatePipe,
   ) {
     this.authors$ = bookService.getAuthorLookup().pipe(map((r) => r.items));
+
   }
 
   ngOnInit() {
@@ -43,6 +50,24 @@ export class BookComponent implements OnInit {
 
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.book = response;
+
+       this.currentDate = this.datepipe.transform(this.currentDate, 'yyyy-MM-dd')
+      for(var i=0; i<this.book.items.length; i++){
+      this.bookDate.push(this.book.items[i].publishDate);
+      new Date (this.bookDate[i])
+
+  
+      console.log("------------");
+     // console.log(this.bookDate[i]);
+     this.bookDate[i] = this.datepipe.transform(this.bookDate[i], 'yyyy-MM-dd');
+      
+      if(this.bookDate[i]> this.currentDate){
+        console.log(true);
+      }
+      else {
+        console.log(false);
+      }
+      }
     });
   }
 

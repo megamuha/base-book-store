@@ -34,9 +34,6 @@ namespace Acme.BookStore.Permissions
             ordersPermission.AddChild(
                 BookStorePermissions.OrderedBooks.Delete, L("Permission:Orders.Delete"));
 
-             ordersPermission.AddChild(
-                 BookStorePermissions.OrderedBooks.ShowOrders, L("Permission:Orders.ShowOrders"));
-
             ordersPermission.AddChild(
                 BookStorePermissions.OrderedBooks.ChangeStatus, L("Permission:Orders.ChangeStatus"));
         }

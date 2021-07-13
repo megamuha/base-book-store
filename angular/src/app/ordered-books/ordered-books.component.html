@@ -3,7 +3,7 @@
       <div class="row">
         <div class="col col-md-6">
           <h5 class="card-title">
-            {{ '::Menu:Books' | abpLocalization }}
+            {{ '::Menu:OrderedBooks' | abpLocalization }}
           </h5>
         </div>
         <div class="text-right col col-md-6"></div>
@@ -19,7 +19,7 @@
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     ngbDropdownToggle>
-              <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
+              <i class="fa fa-cog mr-1"></i>{{ '::ActionsSelect' | abpLocalization }}
             </button>
 
             <div ngbDropdownMenu>
@@ -54,10 +54,10 @@
         </ngx-datatable-column>
         <ngx-datatable-column [name]="'::Confirm' | abpLocalization" >
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p *ngIf="row.status">
+            <p *ngIf="row.status" style="color:#6ec716; font-weight: 500;"  >
               Order confirmed
             </p>
-            <p *ngIf="!row.status">
+            <p *ngIf="!row.status" style="color:#edbc0c; font-weight: 500;">
               Waiting confirm
             </p>
           </ng-template>

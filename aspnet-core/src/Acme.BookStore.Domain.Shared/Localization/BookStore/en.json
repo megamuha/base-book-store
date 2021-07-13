@@ -7,8 +7,10 @@
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "Menu:orderedBooks": "Orders",
+    "Menu:OrderedBooks": "Orders",
     "Menu:myBooks": "My books",
     "Actions": "Actions",
+    "ActionsSelect": "Select",
     "Close": "Close",
     "Delete": "Delete",
     "Edit": "Edit",
@@ -48,6 +50,7 @@
     "BirthDate": "Birth date",
     "NewAuthor": "New author",
     "MakeAnOrder": "Do you really want to make an order?",
-    "YouHaveThisBook": "Ooops, you had already order this book &#128577"
+    "YouHaveThisBook": "Ooops, you had already order this book &#128577",
+    "OrderedBooks": "Ordered books"
   }
 }
